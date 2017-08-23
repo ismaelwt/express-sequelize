@@ -1,6 +1,6 @@
 module.exports = {
 	development: {
-  	url: 'postgres://postgres:123456@localhost:5432/bookmark',
+  	url: 'postgres://postgres:123456@localhost:5432/db-test',
   	dialect: 'postgres'
   },
 	production: {

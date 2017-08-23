@@ -1,5 +1,4 @@
 Module = require('../models/').Module;
-GroupModuleHasModule = require('../models/').GroupModuleHasModule;
 
 module.exports = {
   index(req, res) {

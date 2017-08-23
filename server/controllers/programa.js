@@ -1,6 +1,7 @@
 Programa = require('../models/').Programa;
+ModulePrograma = require('../models/').ModulePrograma;
 
-Programa.exports= {
+module.exports= {
   index(req, res) {
     Programa.findAll()
       .then(function (Programas) {
@@ -24,7 +25,11 @@ Programa.exports= {
   create(req, res) {
     Programa.create(req.body)
       .then(function (newPrograma) {
-        res.status(200).json(newPrograma);
+        ModulePrograma
+        .create({ProgramaId: newPrograma.id, ModuleId: req.body.ModuleId})
+        .then(function(newModulePrograma){
+          res.status(200).json({programa: newPrograma, ModulePrograma: newModulePrograma});
+        });
       })
       .catch(function (error){
         res.status(500).json(error);
