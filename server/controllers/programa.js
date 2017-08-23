@@ -25,11 +25,26 @@ module.exports= {
   create(req, res) {
     Programa.create(req.body)
       .then(function (newPrograma) {
-        ModulePrograma
-        .create({ProgramaId: newPrograma.id, ModuleId: req.body.ModuleId})
-        .then(function(newModulePrograma){
-          res.status(200).json({programa: newPrograma, ModulePrograma: newModulePrograma});
-        });
+
+        if (Array.isArray(req.body.ModuleId)) {
+            
+          var list = [];
+
+          for(var i = 0; i < req.body.ModuleId.length; i++) {
+
+            var obj = {ProgramaId: newPrograma.id, ModuleId: req.body.ModuleId[i]}
+            list.push(obj);
+          }
+
+
+          ModulePrograma
+          .bulkCreate(list)
+          .then(function(newModulePrograma){
+            res.status(200).json({programa: newPrograma, ModulePrograma: newModulePrograma});
+          }).catch(function(err){
+            res.status(500).json(err);            
+          });
+        }
       })
       .catch(function (error){
         res.status(500).json(error);
