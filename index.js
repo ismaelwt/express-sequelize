@@ -1,51 +1,41 @@
+/* imports for application */
 var app = require('express')(),
-authors = require('./server/controllers/authors'),
-books = require('./server/controllers/books'),
-empresa = require('./server/controllers/empresa'),
 groupModule = require('./server/controllers/groupModules'),
 mModule = require('./server/controllers/module'),
-bodyParser = require('body-parser');
+bodyParser = require('body-parser'),
+models = require('./server/models');
+/* imports for application */
 
+
+
+/* imports for routes */
+var empresa = require('./server/routes/empresa'),
+groupModule = require('./server/routes/group-module'),
+mModule = require('./server/routes/module'),
+programa = require('./server/routes/programa');
+/* imports for routes */
+
+
+
+/* setup application */
 app.use(bodyParser.json()); // parse application/json 
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(bodyParser.urlencoded({ extended: true })); // parse application/x-www-form-urlencoded
+/* setup application */
 
 
-var models = require('./server/models');
+/* Setup Routes */
 
-app.get('/authors', authors.index);
-app.get('/authors/:id', authors.show);
-app.post('/authors', authors.create);
-app.put('/authors', authors.update);
-app.delete('/authors', authors.delete);
+app.use('/empresa', empresa);
+app.use('/group-module', groupModule);
+app.use('/programa', programa);
+app.use('/module', mModule);
 
-app.get('/books', books.index);
-app.get('/books/:id', books.show);
-app.post('/books', books.create);
-app.delete('/books', books.delete);
-
-app.get('/empresa', empresa.index);
-app.get('/empresa/:id', empresa.show);
-app.post('/empresa', empresa.create);
-app.put('/empresa', empresa.update);
-app.delete('/empresa', empresa.delete);
-
-app.get('/group-module', groupModule.index);
-app.get('/group-module/:id', groupModule.show);
-app.post('/group-module', groupModule.create);
-app.put('/group-module', groupModule.update);
-app.delete('/group-module', groupModule.delete);
-
-app.get('/module', mModule.index);
-app.get('/module/:id', mModule.show);
-app.post('/module', mModule.create);
-app.put('/module', mModule.update);
-app.delete('/module', mModule.delete);
-
+/* Setup Routes */
 
 app.set('port', process.env.PORT || 8000);
 
-models.sequelize.sync().then(function() {
+models.sequelize.sync({froce: true}).then(function() {
   app.listen(app.get('port'), function () {
     console.log("Magic happens on port", app.get('port'));
   });

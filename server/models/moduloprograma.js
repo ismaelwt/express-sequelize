@@ -5,6 +5,8 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
+        ModulePrograma.belongsTo(models.Module);
+        ModulePrograma.belongsTo(models.Programa);
       }
     }
   });

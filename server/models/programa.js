@@ -5,7 +5,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Programa.belongsToMany(models.Module,  { through: models.ModulePrograma });
+        Programa.hasMany(models.ModulePrograma, { onUpdate: 'cascade'});
       }
     }
   });
