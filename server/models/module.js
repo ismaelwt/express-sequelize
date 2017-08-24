@@ -1,6 +1,12 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Module = sequelize.define('Module', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false
+    },
     name: DataTypes.STRING
   }, {
     classMethods: {
@@ -8,7 +14,6 @@ module.exports = function(sequelize, DataTypes) {
         Module.belongsTo(models.GroupModule,  {
           onDelete: 'cascade'
         });
-        Module.belongsToMany(models.Programa,  { through: models.ModulePrograma });
       }
     }
   });

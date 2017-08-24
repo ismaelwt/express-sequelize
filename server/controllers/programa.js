@@ -43,14 +43,6 @@ module.exports = {
             }).catch(function (err) {
               res.status(500).json(err);
             });
-        } else {
-          ModulePrograma
-            .bulkCreate({ ProgramaId: newPrograma.id, ModuleId: req.body.ModuleId })
-            .then(function (newModulePrograma) {
-              res.status(200).json({ programa: newPrograma, ModulePrograma: newModulePrograma });
-            }).catch(function (err) {
-              res.status(500).json(err);
-            });
         }
       })
       .catch(function (error) {
@@ -64,7 +56,7 @@ module.exports = {
         ModulePrograma.destroy({ where: { ProgramaId: programa.id } }).then(function () {
 
 
-          if (Array.isArray(req.body.ModuleId)) {
+          if (Array.isArray(req.body.ModuleId) && req.body.ModuleId.length > 0) {
 
             var list = [];
 
@@ -81,17 +73,8 @@ module.exports = {
               }).catch(function (err) {
                 res.status(500).json(err);
               });
-          } else {
-            ModulePrograma
-              .create({ ProgramaId: programa.id, ModuleId: req.body.ModuleId })
-              .then(function (newModulePrograma) {
-                res.status(200).json({ programa: programa, ModulePrograma: newModulePrograma });
-              }).catch(function (err) {
-                res.status(500).json(err);
-              });
           }
-
-
+          res.status(200).json('ok');
         }).catch(function (err) {
           res.status(500).json(err);
         })

@@ -35,7 +35,7 @@ app.use('/module', mModule);
 
 app.set('port', process.env.PORT || 8000);
 
-models.sequelize.sync({froce: true}).then(function() {
+models.sequelize.sync({force: false}).then(function() {
   app.listen(app.get('port'), function () {
     console.log("Magic happens on port", app.get('port'));
   });

@@ -1,7 +1,12 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var ModulePrograma = sequelize.define('ModulePrograma', {
-    name: DataTypes.STRING
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false
+    }
   }, {
     classMethods: {
       associate: function(models) {
