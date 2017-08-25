@@ -1,5 +1,5 @@
 Programa = require('../models/').Programa;
-ModulePrograma = require('../models/').ModulePrograma;
+Module = require('../models/').Module;
 
 module.exports = {
   index(req, res) {
@@ -23,61 +23,28 @@ module.exports = {
   },
 
   create(req, res) {
-    Programa.create(req.body)
-      .then(function (newPrograma) {
 
-        if (Array.isArray(req.body.ModuleId)) {
+    Programa.create(req.body).then(function (createdProgram) {
 
-          var list = [];
+      Module.findAll({ where: { id: req.body.ModuleId } })
+        .then(function (mModules) {
+          createdProgram.addModules(mModules);
+          res.status(200).json('OK')
+        })
 
-          for (var i = 0; i < req.body.ModuleId.length; i++) {
-
-            var obj = { ProgramaId: newPrograma.id, ModuleId: req.body.ModuleId[i] }
-            list.push(obj);
-          }
-
-          ModulePrograma
-            .bulkCreate(list)
-            .then(function (newModulePrograma) {
-              res.status(200).json({ programa: newPrograma, ModulePrograma: newModulePrograma });
-            }).catch(function (err) {
-              res.status(500).json(err);
-            });
-        }
-      })
-      .catch(function (error) {
-        res.status(500).json(error);
-      });
+    }).catch(function (err) {
+      res.status(200).json(err)
+    })
   },
 
   update(req, res) {
-    Programa.findById(req.params.id, { include: ModulePrograma })
+    Programa.findById(req.params.id)
       .then(function (programa) {
-        ModulePrograma.destroy({ where: { ProgramaId: programa.id } }).then(function () {
-
-
-          if (Array.isArray(req.body.ModuleId) && req.body.ModuleId.length > 0) {
-
-            var list = [];
-
-            for (var i = 0; i < req.body.ModuleId.length; i++) {
-
-              var obj = { ProgramaId: programa.id, ModuleId: req.body.ModuleId[i] }
-              list.push(obj);
-            }
-
-            ModulePrograma
-              .bulkCreate(list)
-              .then(function (newModulePrograma) {
-                res.status(200).json({ programa: programa, ModulePrograma: newModulePrograma });
-              }).catch(function (err) {
-                res.status(500).json(err);
-              });
-          }
-          res.status(200).json('ok');
-        }).catch(function (err) {
-          res.status(500).json(err);
-        })
+        Module.findAll({ where: { id: req.body.ModuleId } })
+          .then(function (mModules) {
+            programa.setModules(mModules);
+            res.status(200).json('OK')
+          })
       })
       .catch(function (error) {
         res.status(500).json(error);
@@ -98,3 +65,13 @@ module.exports = {
       });
   }
 };
+
+
+function helper(newProgram, array) {
+  arr = [];
+  for (var index = 0; index < array.length; index++) {
+    var obj = { ProgramaId: newProgram.id, ModuleId: array[index] }
+    arr.push(obj);
+  }
+  return arr;
+}

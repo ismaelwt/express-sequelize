@@ -14,6 +14,7 @@ module.exports = function(sequelize, DataTypes) {
         Module.belongsTo(models.GroupModule,  {
           onDelete: 'cascade'
         });
+        Module.belongsToMany(models.Programa, {through: 'ModuloPrograma'});
       }
     }
   });
