@@ -2,10 +2,10 @@ var express = require('express');
 var router = express.Router();
 var usuario = require('../../controllers/usuario');
 
-router.get('/', permRead, usuario.index);
-router.get('/:id', permRead, usuario.show);
-router.post('/', permInsert, usuario.create);
-router.delete('/', permDelete, usuario.delete);
+router.get('/', usuario.index);
+router.get('/:id', usuario.show);
+router.post('/', usuario.create);
+router.delete('/', usuario.delete);
 
 module.exports = router;
 

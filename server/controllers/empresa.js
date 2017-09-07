@@ -5,12 +5,10 @@ Programa = require('../models/').Programa;
 
 module.exports= {
   index(req, res) {
-    Empresa.findAll({
-      include: [{model:GroupModule, include: [{model: Module, include:[{model: Programa}]}]}]
-    })
+    Empresa.findAll()
       .then(function (Empresas) {
         
-        res.status(200).json(Empresas);  
+        res.status(200).json(Empresas);
         
         
       })
