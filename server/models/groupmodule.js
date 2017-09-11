@@ -11,9 +11,8 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        GroupModule.hasMany(models.Module, {
-          onDelete: 'cascade'
-        });
+        GroupModule.hasMany(models.Module);
+        GroupModule.belongsTo(models.Empresa, { foreignKey: 'EmpresaId' });
       }
     }
   });

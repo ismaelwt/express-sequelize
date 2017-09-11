@@ -10,25 +10,22 @@ var helmet = require('helmet');
 var models = require('./server/models');
 var passport = require('passport');
 var flash    = require('connect-flash');
+var cors = require('cors');
 var app = express();
 
 /* imports for application */
 
 
-
-/* imports for routes 
-var empresa = require('./server/routes/empresa'),
-groupModule = require('./server/routes/group-module'),
-mModule = require('./server/routes/module'),
-programa = require('./server/routes/programa'),
-login = require('./server/routes/login'),
-usuario = require('./server/routes/usuario');
- imports for routes */
-
-
-
 /* setup application */
-
+app.use(cors());
+app.set('secret', 'keyboard-cat');
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-access-token");
+  res.header('Access-Control-Expose-Headers', 'x-access-token');
+  res.header('Access-Control-Allow-Credentials', true);
+  next();
+});
 app.use(cookieParser("secret"));
 app.use(bodyParser.json()); // parse application/json 
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
@@ -55,21 +52,19 @@ app.use(helmet({
   }
 }));
 
+app.use(function(req,res,next){
+  var _send = res.send;
+  var sent = false;
+  res.send = function(data){
+      if(sent) return;
+      _send.bind(res)(data);
+      sent = true;
+  };
+  next();
+});
+
 /* setup application */
 
-
-/* Setup Routes */
-
-/*app.use('/empresa', empresa);
-app.use('/group-module', groupModule);
-app.use('/programa', programa);
-app.use('/module', mModule);
-app.use('/auth', login);
-app.use('/usuario', usuario);*/
-
-
-
-/* Setup Routes */
 
 app.set('port', process.env.PORT || 8000);
 require('./server/config/passport')(passport);
@@ -79,7 +74,7 @@ require('./server/routes/routes')(app, passport); // load our routes and pass in
   res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });*/
 
-models.sequelize.sync({force: false}).then(function() {
+models.sequelize.sync({force: true}).then(function() {
   app.listen(app.get('port'), function () {
     console.log("Magic happens on port", app.get('port'));
   });

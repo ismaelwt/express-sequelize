@@ -1,6 +1,6 @@
 'use strict';
-module.exports = function(sequelize, DataTypes) {
-  var usuario = sequelize.define('Usuario', {
+module.exports = function (sequelize, DataTypes) {
+  var Usuario = sequelize.define('Usuario', {
     name: DataTypes.STRING,
     id: {
       type: DataTypes.UUID,
@@ -9,38 +9,39 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     email: {
-      field:        'email',
-      type:         DataTypes.STRING,
-      allowNull:    false,
-      unique:       true,
+      field: 'email',
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
       validate: {
         isEmail: {
-          args:     true,
-          msg:      "Email is not valid"
+          args: true,
+          msg: "Email is not valid"
         }
       },
     },
     password: {
-      type:         DataTypes.STRING,
-      allowNull:    false,
+      type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         min: {
-          args:     6,
-          msg:      "Password must be more than 6 characters"
+          args: 6,
+          msg: "Password must be more than 6 characters"
         }
       }
-    }
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
     },
-    instanceMethods: {
-      validPassword: function(value) {
-        return value === this.password;
+    isAdmin: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }
+  }, {
+      classMethods: {
+        associate: function (models) {
+          Usuario.belongsTo(models.Empresa, { foreignKey: 'EmpresaId' })
+        }
+      },
+      instanceMethods: {
+        validPassword: function (value) {
+          return value === this.password;
+        }
       }
-    }
-  });
-  return usuario;
+    });
+  return Usuario;
 };

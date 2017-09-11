@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var groupModule = require('../controllers/groupModules');
+var groupModule = require('../../controllers/groupModules');
 
 router.get('/', groupModule.index);
 router.get('/:id', groupModule.show);
