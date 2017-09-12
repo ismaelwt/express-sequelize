@@ -70,9 +70,14 @@ app.set('port', process.env.PORT || 8000);
 require('./server/config/passport')(passport);
 require('./server/routes/routes')(app, passport); // load our routes and pass in our app and fully configured passport
 
-/*app.get('*', function (req, res) {
-  res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
-});*/
+var path = __dirname + '/dist';
+
+app.use(express.static(path));
+
+app.get('*', function (req, res) {
+  console.log(path + ' <---');
+  res.sendFile(path + '/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+});
 
 models.sequelize.sync({force: true}).then(function() {
   app.listen(app.get('port'), function () {
