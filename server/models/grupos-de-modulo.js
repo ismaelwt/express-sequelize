@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var Module = sequelize.define('Module', {
+  var GrupoDeModulo = sequelize.define('GrupoDeModulo', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -11,10 +11,10 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Module.belongsTo(models.GroupModule);
-        Module.belongsToMany(models.Programa, {through: 'ModuloPrograma'});
+        GrupoDeModulo.hasMany(models.Modulo);
+        GrupoDeModulo.belongsTo(models.Empresa, { foreignKey: 'EmpresaId' });
       }
     }
   });
-  return Module;
+  return GrupoDeModulo;
 };

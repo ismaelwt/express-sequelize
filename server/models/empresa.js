@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        Empresa.hasMany(models.GroupModule);
+        Empresa.hasMany(models.GrupoDeModulo);
         Empresa.hasMany(models.Usuario);
       }
     }

@@ -1,6 +1,6 @@
 Empresa = require('../models/').Empresa;
-GroupModule = require('../models/').GroupModule;
-Module = require('../models/').Module;
+GrupoDeModulo = require('../models/').GrupoDeModulo;
+Modulo = require('../models/').Modulo;
 Programa = require('../models/').Programa;
 
 module.exports= {

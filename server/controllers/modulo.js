@@ -1,10 +1,10 @@
-Module = require('../models/').Module;
+Modulo = require('../models/').Modulo;
 
-module.exports = {
+Modulo.exports = {
   index(req, res) {
-    Module.findAll()
-      .then(function (Modules) {
-        res.status(200).json(Modules);
+    Modulo.findAll()
+      .then(function (_modulos) {
+        res.status(200).json(_modulos);
       })
       .catch(function (error) {
         res.status(500).json(error);
@@ -12,9 +12,9 @@ module.exports = {
   },
 
   show(req, res) {
-    Module.findById(req.params.id)
-      .then(function (Module) {
-        res.status(200).json(Module);
+    Modulo.findById(req.params.id)
+      .then(function (_modulo) {
+        res.status(200).json(_modulo);
       })
       .catch(function (error) {
         res.status(500).json(error);
@@ -22,10 +22,10 @@ module.exports = {
   },
 
   create(req, res) {
-    Module.create(req.body)
-      .then(function (newModule) {
-        console.log(newModule.dataValues)
-        res.status(200).json(newModule);
+    Modulo.create(req.body)
+      .then(function (newModulo) {
+        console.log(newModulo.dataValues)
+        res.status(200).json(newModulo);
       })
       .catch(function (error) {
         res.status(500).json(error);
@@ -33,7 +33,7 @@ module.exports = {
   },
 
   update(req, res) {
-    Module.update(req.body, {
+    Modulo.update(req.body, {
       where: {
         id: req.params.id
       }
@@ -47,7 +47,7 @@ module.exports = {
   },
 
   delete(req, res) {
-    Module.destroy({
+    Modulo.destroy({
       where: {
         id: req.params.id
       }

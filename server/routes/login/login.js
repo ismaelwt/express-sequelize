@@ -32,7 +32,7 @@ function gerarToken(user, req, res) {
     var pToken = jwt.sign(tmpUser, req.app.get('secret'));
 
     res.set('x-access-token', pToken);
-    return tmpUser;
+    return user;
 };
 
 module.exports = router;
