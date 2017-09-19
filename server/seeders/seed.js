@@ -18,7 +18,7 @@ router.post('/init', function (req, res, next) {
                 .findOrCreate({ where: { nome: '_root', _isRoot: true, CidadeId: cidade.id } })
                 .spread((empresa, created) => {
 
-                    Usuario.findOrCreate({ where: { nome: 'Admin', email: 'admin@admin.com', password: bcrypt.hashSync('123456', 10), EmpresaId: empresa.id, isAdmin: true } })
+                    Usuario.findOrCreate({ where: { nome: 'Admin', email: 'admin@admin.com', password: '123456', EmpresaId: empresa.id, isAdmin: true } })
                         .spread((usuario, created) => {
                             console.log(usuario);
                         });

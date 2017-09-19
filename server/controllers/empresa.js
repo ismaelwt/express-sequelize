@@ -1,6 +1,7 @@
 Empresa = require('../models/').Empresa;
 GrupoDeModulo = require('../models/').GrupoDeModulo;
 Modulo = require('../models/').Modulo;
+Usuario = require('../models/').Usuario;
 Programa = require('../models/').Programa;
 
 module.exports= {
@@ -30,7 +31,15 @@ module.exports= {
   create(req, res) {
     Empresa.create(req.body)
       .then(function (newEmpresa) {
-        res.status(200).json(newEmpresa);
+
+
+        req.body.usuario.EmpresaId = newEmpresa.id;
+
+        Usuario.create(req.body.usuario).then(function(newUser){
+          if (newUser) {
+            res.status(200).json(newUser);
+          }
+        })
       })
       .catch(function (error){
         res.status(500).json(error);

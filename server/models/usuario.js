@@ -40,7 +40,18 @@ module.exports = function (sequelize, DataTypes) {
         }
       },
       instanceMethods: {
+        generateHash(value) {
+          return bcrypt.hashSync(value, 10);
+        },
+        compareHash(value){
+          return bcrypt.compareSync(value, this.password)
+        }
       }
     });
+
+    Usuario.hook('beforeCreate', (user, options) => {
+      user.password = user.generateHash(user.password);
+    });
+  
   return Usuario;
 };

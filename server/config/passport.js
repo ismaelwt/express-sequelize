@@ -40,7 +40,7 @@ module.exports = function (passport) {
                     if (!user)
                         return done(null, false, { success: false, message: 'Usuário, não encontrado.' });
 
-                    if (!bcrypt.compareSync(password, user.password))
+                    if (!user.compareHash(password))
                         return done(null, false, { success: false, message: 'Oops! Senha incorreta.' });
 
                     if (!user.getEmpresa())
