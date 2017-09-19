@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: DataTypes.UUIDV4,
       allowNull: false
     },
-    name: DataTypes.STRING
+    nome: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {

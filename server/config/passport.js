@@ -1,6 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models').Usuario;
 var Empresa = require('../models').Empresa;
+var bcrypt = require('bcrypt');
 
 module.exports = function (passport) {
 
@@ -39,13 +40,14 @@ module.exports = function (passport) {
                     if (!user)
                         return done(null, false, { success: false, message: 'Usuário, não encontrado.' });
 
-                    if (!user.validPassword(password))
+                    if (!bcrypt.compareSync(password, user.password))
                         return done(null, false, { success: false, message: 'Oops! Senha incorreta.' });
 
-                    if (user.empresa)
+                    if (!user.getEmpresa())
                         return done(null, false, { success: false, message: 'Oops! O Usuário sem empresa.' });
+
                     else
-                    return done(null, user);
+                        return done(null, user);
                 });
             });
 

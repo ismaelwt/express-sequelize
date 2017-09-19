@@ -11,8 +11,11 @@ router.post('/login', function (req, res, next) {
         if (info) return res.json(info.message);
 
         req.logIn(user, function (err) {
-            if (err) { return next(err); }
-            return res.json(gerarToken(user, req, res));
+            req.session.key = user;
+            req.session.save(function () {
+                if (err) { return next(err); }
+                return res.json(gerarToken(user, req, res));
+            });
         });
 
     })(req, res, next);
@@ -28,9 +31,9 @@ router.post('/logout', function (req, res, next) {
 });
 
 function gerarToken(user, req, res) {
-    var tmpUser = { email: user.email, password: user.password, name: user.name }
+    var tmpUser = { email: user.email, password: user.password, name: user.nome }
     var pToken = jwt.sign(tmpUser, req.app.get('secret'));
-
+    res.cookie('sessionid', req.session.id, { httpOnly: false });
     res.set('x-access-token', pToken);
     return user;
 };

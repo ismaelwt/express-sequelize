@@ -1,7 +1,9 @@
 'use strict';
+var bcrypt = require('bcrypt');
+
 module.exports = function (sequelize, DataTypes) {
   var Usuario = sequelize.define('Usuario', {
-    name: DataTypes.STRING,
+    nome: DataTypes.STRING,
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -38,9 +40,6 @@ module.exports = function (sequelize, DataTypes) {
         }
       },
       instanceMethods: {
-        validPassword: function (value) {
-          return value === this.password;
-        }
       }
     });
   return Usuario;

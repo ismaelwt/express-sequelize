@@ -3,7 +3,7 @@ var usuario = require('./usuarios/usuario');
 var login = require('./login/login');
 var grupoDeModulo = require('./grupos-de-modulo/grupo-de-modulo');
 var jwt = require('jsonwebtoken');
-
+var cookieParser = require('cookie-parser');
 
 //Seed options
 var seed =  require('.././seeders/seed');
@@ -19,7 +19,6 @@ module.exports = function (app, passport) {
 
 function isLoggedIn(req, res, next) {
     if (req.session) {
-
         var token = req.body.token || req.query.token || req.headers['x-access-token'];
         if (token) {
 
@@ -28,10 +27,9 @@ function isLoggedIn(req, res, next) {
                     return res.json({ success: false, message: 'Falha de autenticação do token.' });
                 } else {
 
-                    //procura o usuario por empresa.
-
-
-                    next();
+                    if(req.isAuthenticated() && req.cookies.sessionid === req.session.id){
+                        next();
+                    }
                 }
             });
         }

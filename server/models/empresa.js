@@ -1,7 +1,16 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Empresa = sequelize.define('Empresa', {
-    name: DataTypes.STRING,
+    nome: DataTypes.STRING,
+    cnpj: DataTypes.STRING,
+    endereco: DataTypes.STRING,
+    cep: DataTypes.STRING,
+    bairro:DataTypes.STRING,
+    numero: DataTypes.STRING,
+    ddd: DataTypes.STRING,
+    telefone: DataTypes.STRING,
+    email: DataTypes.STRING,
+    complemento: DataTypes.STRING,
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
