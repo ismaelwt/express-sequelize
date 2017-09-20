@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Programa = sequelize.define('Programa', {
     id: {
       type: DataTypes.UUID,
@@ -9,13 +9,13 @@ module.exports = function(sequelize, DataTypes) {
     },
     nome: DataTypes.STRING
   }, {
-    freezeTableName: true,
-    paranoid: true,
-    classMethods: {
-      associate: function(models) {
-        Programa.belongsToMany(models.Modulo, {through: 'ModuloPrograma'});
+      freezeTableName: true,
+      paranoid: true,
+      classMethods: {
+        associate: function (models) {
+          Programa.belongsToMany(models.Modulo, { through: 'ModuloPrograma' });
+        }
       }
-    }
-  });
+    });
   return Programa;
 };
