@@ -34,6 +34,8 @@ module.exports = function (sequelize, DataTypes) {
     },
     isAdmin: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }
   }, {
+      freezeTableName: true,
+      paranoid: true,
       classMethods: {
         associate: function (models) {
           Usuario.belongsTo(models.Empresa, { foreignKey: 'EmpresaId' })
@@ -43,15 +45,15 @@ module.exports = function (sequelize, DataTypes) {
         generateHash(value) {
           return bcrypt.hashSync(value, 10);
         },
-        compareHash(value){
+        compareHash(value) {
           return bcrypt.compareSync(value, this.password)
         }
       }
     });
 
-    Usuario.hook('beforeCreate', (user, options) => {
-      user.password = user.generateHash(user.password);
-    });
-  
+  Usuario.hook('beforeCreate', (user, options) => {
+    user.password = user.generateHash(user.password);
+  });
+
   return Usuario;
 };

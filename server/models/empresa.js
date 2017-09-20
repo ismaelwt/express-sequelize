@@ -19,6 +19,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     _isRoot: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false }
   }, {
+    freezeTableName: true,
+    paranoid: true,
     classMethods: {
       associate: function(models) {
         Empresa.hasMany(models.GrupoDeModulo);

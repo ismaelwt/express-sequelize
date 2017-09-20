@@ -12,9 +12,11 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false
     }
   }, {
+      freezeTableName: true,
+      paranoid: true,
       classMethods: {
         associate: function (models) {
-            Cidade.hasOne(models.Empresa);
+          Cidade.hasOne(models.Empresa);
         }
       },
       instanceMethods: {

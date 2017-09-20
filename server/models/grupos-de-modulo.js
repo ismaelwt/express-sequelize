@@ -9,6 +9,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     nome: DataTypes.STRING
   }, {
+    freezeTableName: true,
+    paranoid: true,
     classMethods: {
       associate: function(models) {
         GrupoDeModulo.hasMany(models.Modulo);
