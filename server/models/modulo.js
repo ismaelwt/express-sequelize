@@ -15,6 +15,7 @@ module.exports = function (sequelize, DataTypes) {
         associate: function (models) {
           Modulo.belongsTo(models.GrupoDeModulo);
           Modulo.belongsToMany(models.Programa, { through: 'ModuloPrograma' });
+          Modulo.belongsTo(models.Empresa, { foreignKey: 'EmpresaId' })
         }
       }
     });

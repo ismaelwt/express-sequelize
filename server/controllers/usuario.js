@@ -1,11 +1,12 @@
 Usuario = require('../models/').Usuario;
+Empresa = require('../models/').Empresa;
+
 
 module.exports= {
   index(req, res) {
-    Usuario.findAll()
-      .then(function (Usuarios) {
-        
-        res.status(200).json(Usuarios);  
+    Usuario.findAll({ include : Empresa})
+      .then(function (usuarios) {
+        res.status(200).json(usuarios);
         
         
       })
@@ -15,9 +16,9 @@ module.exports= {
   },
 
   show(req, res) {
-    Usuario.findById(req.params.id)
-    .then(function (Usuario) {
-      res.status(200).json(Usuario);
+    Usuario.findById(req.params.id, { include : Empresa })
+    .then(function (usuario) {
+      res.status(200).json(usuario);
     })
     .catch(function (error){
       res.status(500).json(error);

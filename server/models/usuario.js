@@ -38,7 +38,12 @@ module.exports = function (sequelize, DataTypes) {
       paranoid: true,
       classMethods: {
         associate: function (models) {
-          Usuario.belongsTo(models.Empresa, { foreignKey: 'EmpresaId' })
+          Usuario.belongsTo(models.Empresa, {
+            foreignKey: {
+              name: 'EmpresaId',
+              allowNull: false
+            }
+          })
         }
       },
       instanceMethods: {

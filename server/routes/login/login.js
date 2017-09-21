@@ -31,7 +31,7 @@ router.post('/logout', function (req, res, next) {
 });
 
 function gerarToken(user, req, res) {
-    var tmpUser = { email: user.email, password: user.password, name: user.nome }
+    var tmpUser = { email: user.email, password: user.password, name: user.nome, Empresa: user.Empresa }
     var pToken = jwt.sign(tmpUser, req.app.get('secret'));
     res.cookie('sessionid', req.session.id, { httpOnly: false });
     res.set('x-access-token', pToken);

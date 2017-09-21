@@ -14,6 +14,7 @@ module.exports = function (sequelize, DataTypes) {
       classMethods: {
         associate: function (models) {
           Programa.belongsToMany(models.Modulo, { through: 'ModuloPrograma' });
+          Programa.belongsTo(models.Empresa, { foreignKey: 'EmpresaId' })
         }
       }
     });
