@@ -57,6 +57,7 @@ module.exports = function (sequelize, DataTypes) {
     });
 
   Usuario.hook('beforeCreate', (user, options) => {
+    console.log(options);
     user.password = user.generateHash(user.password);
   });
 

@@ -70,7 +70,7 @@ app.get('*', function (req, res) {
   res.sendFile(path + '/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
 
-models.sequelize.sync({ force: false }).then(function () {
+models.sequelize.sync({ force: true }).then(function () {
   app.listen(app.get('port'), function () {
     console.log("Magic happens on port", app.get('port'));
   });

@@ -1,64 +1,24 @@
-Usuario = require('../models/').Usuario;
-Empresa = require('../models/').Empresa;
+UsuarioService = require('../services/usuario.service');
 
 
 module.exports = {
   index(req, res) {
-    Usuario.findAll({ include: Empresa })
-      .then(function (usuarios) {
-        res.status(200).json(usuarios);
-
-
-      })
-      .catch(function (error) {
-        res.status(500).json(error);
-      });
+    UsuarioService.findAll(req, res);
   },
 
   show(req, res) {
-    Usuario.findById(req.params.id, { include: Empresa })
-      .then(function (usuario) {
-        res.status(200).json(usuario);
-      })
-      .catch(function (error) {
-        res.status(500).json(error);
-      });
+    if (req.query.id || req.params.id) {
+      UsuarioService.findById(req, res);
+    }
   },
 
   create(req, res) {
-    if (req.query.id) {
-      Usuario.update(req.body, {
-        where: {
-          id: req.query.id
-        }
-      })
-        .then(function (updatedRecords) {
-          res.status(200).json(updatedRecords);
-        })
-        .catch(function (error) {
-          res.status(500).json(error);
-        });
-    } else {
-      Usuario.create(req.body)
-        .then(function (newUsuario) {
-          res.status(200).json(newUsuario);
-        })
-        .catch(function (error) {
-          res.status(500).json(error);
-        });
-    }
+    UsuarioService.createOrUpdate(req, res);
   },
+
   delete(req, res) {
-    Usuario.destroy({
-      where: {
-        id: req.params.id
-      }
-    })
-      .then(function (deletedRecords) {
-        res.status(200).json(deletedRecords);
-      })
-      .catch(function (error) {
-        res.status(500).json(error);
-      });
+    if (req.params.id) {
+      UsuarioService.delete(req, res);
+    }
   }
 };

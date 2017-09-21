@@ -12,6 +12,7 @@ router.post('/login', function (req, res, next) {
 
         req.logIn(user, function (err) {
             req.session.key = user;
+            req.session.empresaId = user.Empresa.id;
             req.session.save(function () {
                 if (err) { return next(err); }
                 return res.json(gerarToken(user, req, res));

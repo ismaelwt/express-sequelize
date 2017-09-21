@@ -1,73 +1,23 @@
-Empresa = require('../models/').Empresa;
-GrupoDeModulo = require('../models/').GrupoDeModulo;
-Modulo = require('../models/').Modulo;
-Usuario = require('../models/').Usuario;
-Programa = require('../models/').Programa;
+EmpresaService = require('../services/empresa-service');
 
 module.exports = {
   index(req, res) {
-    Empresa.findAll()
-      .then(function (Empresas) {
-
-        res.status(200).json(Empresas);
-
-
-      })
-      .catch(function (error) {
-        res.status(500).json(error);
-      });
+    EmpresaService.findAll(req, res);
   },
 
   show(req, res) {
-    Empresa.findById(req.params.id)
-      .then(function (Empresa) {
-        res.status(200).json(Empresa);
-      })
-      .catch(function (error) {
-        res.status(500).json(error);
-      });
-  },
-
-  create(req, res) {
-    if (req.query.id) {
-      Empresa.update(req.body, {
-        where: {
-          id: req.query.id
-        }
-      })
-        .then(function (updatedRecords) {
-          res.status(200).json(updatedRecords);
-        })
-        .catch(function (error) {
-          res.status(500).json(error);
-        });
-    } else {
-      Empresa.create(req.body)
-        .then(function (newEmpresa) {
-          req.body.usuario.EmpresaId = newEmpresa.id;
-          Usuario.create(req.body.usuario).then(function (newUser) {
-            if (newUser) {
-              res.status(200).json(newUser);
-            }
-          })
-        })
-        .catch(function (error) {
-          res.status(500).json(error);
-        });
+    if (req.query.id || req.params.id) {
+      EmpresaService.findById(req, res);
     }
   },
 
+  create(req, res) {
+    EmpresaService.createOrUpdate(req, res);
+  },
+
   delete(req, res) {
-    Empresa.destroy({
-      where: {
-        id: req.params.id
-      }
-    })
-      .then(function (deletedRecords) {
-        res.status(200).json(deletedRecords);
-      })
-      .catch(function (error) {
-        res.status(500).json(error);
-      });
+    if (req.params.id) {
+      EmpresaService.delete(req, res);
+    }
   }
 };
