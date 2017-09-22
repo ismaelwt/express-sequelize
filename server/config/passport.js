@@ -1,5 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models').Usuario;
+var ScopeService = require('../services/scope.service');
 var Empresa = require('../models').Empresa;
 var bcrypt = require('bcrypt');
 
@@ -35,6 +36,9 @@ module.exports = function (passport) {
 
             // asynchronous
             process.nextTick(function () {
+
+                ScopeService.setDefultScope(User, true);
+
                 User.findOne({ where: { email: pEmail }, include: [Empresa] }).then(function (user) {
                     // if no user is found, return the message
                     if (!user)

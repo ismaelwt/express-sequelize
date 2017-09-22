@@ -25,9 +25,9 @@ router.post('/init', function (req, res, next) {
 
                     GrupoDeModulo.findOrCreate({ where: { nome: 'Grupos de Modulo ADMIN', EmpresaId: empresa.id } })
                         .spread((gpModulo, created) => {
-                            Modulo.findOrCreate({ where: { nome: 'Modulo 1', GrupoDeModuloId: gpModulo.id } })
+                            Modulo.findOrCreate({ where: { nome: 'Modulo 1', GrupoDeModuloId: gpModulo.id, EmpresaId: empresa.id } })
                                 .spread((pModulo, created) => {
-                                    Programa.findOrCreate({ where: { nome: 'Programa 1' } })
+                                    Programa.findOrCreate({ where: { nome: 'Programa 1', EmpresaId: empresa.id } })
                                         .spread((programa, created) => {
                                             programa.addModulos(pModulo);
                                             res.json({ success: true, message: 'All Created' });

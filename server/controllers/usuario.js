@@ -1,6 +1,5 @@
 UsuarioService = require('../services/usuario.service');
 
-
 module.exports = {
   index(req, res) {
     UsuarioService.findAll(req, res);

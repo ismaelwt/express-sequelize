@@ -1,4 +1,4 @@
-Usuario = require('../models/').Usuario;
+Modulo = require('../models/').Modulo;
 Empresa = require('../models/').Empresa;
 Validations = require('./validation');
 ScopeService = require('./scope.service');
@@ -6,13 +6,13 @@ ScopeService = require('./scope.service');
 module.exports = {
 	createOrUpdate(req, res) {
 
-		let user = Validations.validarEmpresa(req);
-		ScopeService.setDefultScope(Usuario, req.user.dataValues.isAdmin, req.session.empresaId);
+		let modulo = Validations.validarEmpresa(req);
+		ScopeService.setDefultScope(Modulo, req.user.dataValues.isAdmin, req.session.empresaId);
 		
 		if (req.query.id) {
-			Usuario.update(user, {
+			Modulo.update(modulo, {
 				where: {
-					id: user.id
+					id: modulo.id
 				}
 			})
 				.then(function (updatedRecords) {
@@ -22,9 +22,9 @@ module.exports = {
 					res.status(500).json(error);
 				});
 		} else {
-			Usuario.create(user)
-				.then(function (newUsuario) {
-					res.status(200).json(newUsuario);
+			Modulo.create(modulo)
+				.then(function (newModulo) {
+					res.status(200).json(newModulo);
 				})
 				.catch(function (error) {
 					res.status(500).json(error);
@@ -34,11 +34,11 @@ module.exports = {
 
 	delete(req, res) {
 
-		ScopeService.setDefultScope(Usuario, req.user.dataValues.isAdmin, req.session.empresaId);
+		ScopeService.setDefultScope(Modulo, req.user.dataValues.isAdmin, req.session.empresaId);
 
 		let id = req.query.id || req.params.id;
 
-		Usuario.destroy({ where: { id: id } })
+		Modulo.destroy({ where: { id: id } })
 			.then(function (deletedRecords) {
 				res.status(200).json(deletedRecords);
 			})
@@ -48,13 +48,13 @@ module.exports = {
 	},
 	findById(req, res) {
 
-		ScopeService.setDefultScope(Usuario, req.user.dataValues.isAdmin, req.session.empresaId);
+		ScopeService.setDefultScope(Modulo, req.user.dataValues.isAdmin, req.session.empresaId);
 
 		let id = req.query.id || req.params.id;
 
-		Usuario.findById(id, { include: Empresa })
-			.then(function (usuario) {
-				res.status(200).json(usuario);
+		Modulo.findById(id, { include: Empresa })
+			.then(function (Modulo) {
+				res.status(200).json(Modulo);
 			})
 			.catch(function (error) {
 				res.status(500).json(error);
@@ -62,11 +62,11 @@ module.exports = {
 	},
 	findAll(req, res) {
 		
-		ScopeService.setDefultScope(Usuario, req.user.dataValues.isAdmin, req.session.empresaId);
+		ScopeService.setDefultScope(Modulo, req.user.dataValues.isAdmin, req.session.empresaId);
 
-		Usuario.findAll({ include: Empresa })
-			.then(function (usuarios) {
-				res.status(200).json(usuarios);
+		Modulo.findAll({ include: Empresa })
+			.then(function (Modulos) {
+				res.status(200).json(Modulos);
 			})
 			.catch(function (error) {
 				res.status(500).json(error);
