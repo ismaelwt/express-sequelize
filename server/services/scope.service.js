@@ -4,6 +4,8 @@ module.exports = {
 		if (!_isAdmin) {
 			 defaultScope = { where: { EmpresaId: _idEmpresa}};
 			 _model.addScope('defaultScope', defaultScope, {override: true});
+		}else {
+			 _model.addScope('defaultScope', {}, {override: true});
 		}
 	}
 }
