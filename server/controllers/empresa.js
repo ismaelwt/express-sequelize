@@ -1,4 +1,4 @@
-EmpresaService = require('../services/empresa-service');
+EmpresaService = require('../services/empresa.service');
 
 module.exports = {
   index(req, res) {

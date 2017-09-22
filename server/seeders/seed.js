@@ -12,7 +12,7 @@ var Cidade = require('../models/').Cidade;
 
 router.post('/init', function (req, res, next) {
 
-    Cidade.findOrCreate({ where: { nome: 'Joinville' } })
+    Cidade.findOrCreate({ where: { nome: 'Joinville', uf : 'SC' } })
         .spread((cidade, created) => {
             Empresa
                 .findOrCreate({ where: { nome: '_root', _isRoot: true, CidadeId: cidade.id } })
